@@ -83,6 +83,7 @@
     background: #d2e9ce;
     z-index: 1;
     border-radius: 35px;
+    box-shadow: 0 20px 55px rgba(15, 52, 44, 0.12);
 }
 
 .mv-box:first-child {
