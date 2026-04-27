@@ -5,7 +5,7 @@
     align-items: center;
     padding: 145px 0 110px;
     overflow: hidden;
-    background: linear-gradient(140deg, #01412C 40%, rgb(15 52 44 / 48%)), url(../img/bridge2.webp) center / cover no-repeat;
+    background: linear-gradient(140deg, #01412C 40%, rgb(15 52 44 / 30%)), url(../img/bridge2.webp) center / cover no-repeat;
 }
 
 .hero-backdrop {
