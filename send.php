@@ -25,9 +25,10 @@ $company = trim($_POST["company"] ?? "");
 // ==================== ROUTING LOGIC ====================
 // Change these emails to your actual work Outlook addresses
 $recipients = [
-    "supplier"   => "diyano7342@poisonword.com",
-    "business"   => "nu4skus9oq@yzcalo.com",
-    "feedback"   => "5fo9x@deltajohnsons.com",  
+    "Supplier"   => "diyano7342@poisonword.com",
+    "Business"   => "nu4skus9oq@yzcalo.com",
+    "Feedback"   => "5fo9x@deltajohnsons.com",  
+    "Media"   => "5fo9x@deltajohnsons.com",  
     "Other"      => "lafyutagni@necub.com"
 ];
 
