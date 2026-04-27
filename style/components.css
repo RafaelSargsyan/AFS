@@ -103,21 +103,6 @@ button {
     margin: 0 auto;
 }
 
-.slide-item {
-    padding: 20px 10px;
-}
-
-.slide-item img {
-    width: 100%;
-    height: 340px;
-    opacity: 0.8;
-    object-fit: cover;
-    border-radius: 26px;
-}
-
-.slick-slide {
-    margin: 0 6px;
-}
 
 .slick-current img,
 .slick-center img {
@@ -143,3 +128,30 @@ button {
 
 
 
+.slick-slide {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    transform: scale(0.9);
+    opacity: 0.6;
+}
+
+.slick-center {
+    transform: scale(1);
+    opacity: 1;
+}
+.slick-current img,
+.slick-center img {
+    transform: scale(1.1);
+}
+
+.slide-item img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    border-radius: 26px;
+    transition: all 0.4s ease;
+}
+
+.slick-slide {
+    display: block !important;
+    padding: 20px;
+}

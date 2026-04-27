@@ -1,4 +1,4 @@
-// Wait for DOM to be fully loaded (best practice)
+// ==================== MAIN DOM READY ====================
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==================== HEADER SCROLL ====================
@@ -17,6 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("show");
+
+                // 🔥 FIX: recalc slick when visible
+                if (entry.target.querySelector('#studiosSlider')) {
+                    $('#studiosSlider').slick('setPosition');
+                }
+
+                if (entry.target.querySelector('#facilitiesSlider')) {
+                    $('#facilitiesSlider').slick('setPosition');
+                }
             }
         });
     }, {
@@ -34,19 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", () => {
         let current = "";
 
-        // Special case for the last section (Contact)
         const lastSection = document.getElementById("contact");
         const scrollPosition = window.scrollY + window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
 
-        // If user is near the bottom → activate "Contact us"
-        if (scrollPosition >= documentHeight - 100) {   // 100px threshold from bottom
+        if (scrollPosition >= documentHeight - 100) {
             current = "contact";
-        } 
-        else {
-            // Normal logic for other sections
+        } else {
             sections.forEach(section => {
-                const sectionTop = section.offsetTop - 180;   // Increased offset for better feel
+                const sectionTop = section.offsetTop - 180;
                 const sectionBottom = sectionTop + section.offsetHeight;
 
                 if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
@@ -55,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Update active class
         navLinks.forEach(link => {
             link.classList.remove("active");
             if (link.getAttribute("href") === "#" + current) {
@@ -64,17 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // // ==================== PROGRESS BAR ====================
-    // const progressBar = document.getElementById("progressBar");
-
-    // window.addEventListener("scroll", () => {
-    //     const scrollTop = window.scrollY;
-    //     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    //     const progress = (scrollTop / docHeight) * 100;
-    //     progressBar.style.width = `${progress}%`;
-    // });
-
-    // ==================== CATEGORY CARDS (Click to expand) ====================
+    // ==================== CATEGORY CARDS ====================
     const items = document.querySelectorAll('.category-item');
     const categoriesSection = document.querySelector('.categories');
 
@@ -82,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
 
-            // Reset all
             items.forEach(i => i.classList.remove('active'));
             if (categoriesSection) categoriesSection.classList.remove('blur');
 
@@ -93,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-   // ==================== CONTACT FORM ====================
+    // ==================== CONTACT FORM ====================
     const contactForm = document.getElementById("contact-form");
 
     if (contactForm) {
@@ -103,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const statusEl = document.getElementById("form-status");
             const submitBtn = this.querySelector("button");
 
-            // Disable button while sending
             submitBtn.disabled = true;
             submitBtn.textContent = "SENDING...";
 
@@ -126,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch(() => {
                 statusEl.style.color = "red";
-                statusEl.textContent = "Something went wrong. Please try again.";
+                statusEl.textContent = "Something went wrong.";
             })
             .finally(() => {
                 submitBtn.disabled = false;
@@ -135,8 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-    
+    // ==================== SCROLL TO TOP ====================
     const scrollBtn = document.getElementById("scrollTopBtn");
 
     if (scrollBtn) {
@@ -148,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Smooth scroll to top when button is clicked
         scrollBtn.addEventListener("click", () => {
             window.scrollTo({
                 top: 0,
@@ -157,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ==================== MOBILE MENU ====================
     const hamburger = document.getElementById('hamburger');
     const mainNav = document.getElementById('mainNav');
 
@@ -166,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
             mainNav.classList.toggle('active');
         });
 
-        // Close menu when clicking a link
         document.querySelectorAll('.main-nav a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
@@ -175,129 +165,102 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-});
+    // ==================== SLICK INIT (CLEAN & SAFE) ====================
+    if (typeof $ !== "undefined" && $.fn.slick) {
 
-$(document).ready(function(){
-    $('#studiosSlider').slick({
-        centerMode: true,
-        centerPadding: "0px",
-        slidesToShow: 3,
-        infinite: true,
-        speed: 700,
-        arrows: true,
-        dots: false,
-        autoplay: true,
-        autoplaySpeed: 3200,
-        lazyLoad: "ondemand",
-        cssEase: "ease-in-out",
-        responsive: [
-            {
-                breakpoint: 1100,
-                settings: {
-                    centerPadding: '50px',
-                    slidesToShow: 3
+        $('#studiosSlider').slick({
+            centerMode: true,
+            centerPadding: '0px',
+            lazyLoad: 'ondemand',
+            slidesToShow: 3,
+            infinite: true,
+            autoplay: true,
+            autoplaySpeed: 3400,
+            speed: 800,
+            arrows: true,
+            dots: false,
+            responsive: [
+                {
+                    breakpoint: 1100,
+                    settings: {
+                        centerPadding: '50px',
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 992,
+                    settings: {
+                        slidesToShow: 1
+                    }
                 }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 1
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1
-                }
-            }
-        ]
-    });
-});
+            ]
+        });
 
-$(document).ready(function(){
-    $('#facilitiesSlider').slick({
-        centerMode: true,
-        centerPadding: '0px',
-        lazyLoad: 'ondemand',
-        slidesToShow: 3,
-        infinite: true,
-        autoplay: true,
-        // initialSlide: 1,
-        autoplaySpeed: 3400,
-        speed: 800,
-        arrows: true,
-        dots: false,
-        responsive: [
-            {
-                breakpoint: 1100,
-                settings: {
-                    centerPadding: '50px',
-                    slidesToShow: 3
+        $('#facilitiesSlider').slick({
+            centerMode: true,
+            centerPadding: '0px',
+            lazyLoad: 'ondemand',
+            slidesToShow: 3,
+            infinite: true,
+            autoplay: true,
+            autoplaySpeed: 3400,
+            speed: 800,
+            arrows: true,
+            dots: false,
+            responsive: [
+                {
+                    breakpoint: 1100,
+                    settings: {
+                        centerPadding: '50px',
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 992,
+                    settings: {
+                        centerPadding: '40px',
+                        slidesToShow: 1
+                    }
                 }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    centerPadding: '40px',
-                    slidesToShow: 1
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    centerPadding: '20px',
-                    slidesToShow: 1
-                }
-            }
-        ]
-    });
-});
+            ]
+        });
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-    
+    // ==================== COUNTERS ====================
     const statItems = document.querySelectorAll('.stat-item');
-    const counters = document.querySelectorAll('.counter');
-    console.log('init');
-    
 
-    // Intersection Observer to detect when stats come into view
-    const observer = new IntersectionObserver((entries) => {
+    const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                
-                // Remove 'hidden' and show the item
+
                 entry.target.classList.remove('hidden');
-                
-                // Animate the counter inside this item
+
                 const counter = entry.target.querySelector('.counter');
                 if (counter) {
                     const targetNumber = parseInt(counter.textContent, 10);
                     animateCount(counter, targetNumber);
                 }
 
-                // Stop observing once triggered
-                observer.unobserve(entry.target);
+                counterObserver.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.3,        
+        threshold: 0.3,
         rootMargin: "0px 0px -80px 0px"
     });
 
-    // Observe all stat items
     statItems.forEach(item => {
-        observer.observe(item);
+        counterObserver.observe(item);
     });
 
-    // Smooth counter animation function
     function animateCount(element, target) {
         let current = 0;
-        const duration = 1000; // 2 seconds
-        const increment = target / (duration / 16); // ~60fps
+        const duration = 1000;
+        const increment = target / (duration / 16);
 
         const timer = setInterval(() => {
             current += increment;
-            
+
             if (current >= target) {
                 element.textContent = target;
                 clearInterval(timer);
@@ -306,4 +269,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 16);
     }
+
 });
