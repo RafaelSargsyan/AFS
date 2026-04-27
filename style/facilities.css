@@ -1,0 +1,23 @@
+.facilities {
+    padding: 100px 0 0;
+}
+
+.facilities-header {
+    margin-bottom: 50px;
+}
+
+.facilities-header h2 {
+    font-family: 'Bebas Neue';
+    font-size: 67px;
+    line-height: 68px;
+    color: #f55116;
+    font-weight: 500;
+}
+
+.facilities-header p {
+    color: #1f4d3b;
+    text-align: justify;
+    line-height: 1.6;
+}
+
+

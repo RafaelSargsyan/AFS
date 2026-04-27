@@ -1,0 +1,182 @@
+.shops-container-text {
+    padding: 80px 20px;
+}
+
+.shops-section {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right;
+    position: relative;
+    background-position: right;
+}
+
+.shops-container-text-inner {
+    width: 60%;
+}
+
+.shops-container-text h2{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    line-height: 65px;
+    color: #f55116;
+    font-weight: 500;
+}
+
+.shops-container-text p {
+    color: #1f4d3b;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.7;
+    text-align: justify;
+    margin-bottom: 0;
+}
+
+.shops-separate {
+    margin-top: 40px;
+}
+
+.shop-card {
+    display: flex;
+    gap: 40px;
+}
+
+.shop-card-wrapper {
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.shop-card-wrapper:first-child {
+    margin-bottom: 40px;
+}
+
+.shop-card-wrapper:first-child .shop-logo button {
+    background-color: #173f37;
+}
+
+.shop-card-wrapper:nth-child(2) .shop-logo button {
+    background-color: #abba9d;
+}
+
+.shop-links {
+    text-align: right;
+}
+
+.shop-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.shop-logo  {
+    width: 250px;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.shop-logo button {
+    background-color: #abba9d;
+    border-radius: 20px;
+    height: 100%;
+}
+
+.brand-logo {
+    transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+    transform: scale(1.1);
+}
+
+.shop-logo .btn {
+    align-self: center; 
+    min-height: 177px;
+}
+
+
+.shop-logo button {
+    padding: 20px;
+}
+
+.shops-container-text-inner {
+    width: 60%;
+}
+
+.house-collapse {
+    position: absolute;
+    right: 0;
+}
+
+.house-collapse .link-btn {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.house-collapse-v2 {
+    margin-top: 20px;
+}
+
+.house-collapse-v2 .dropdowning-liks{
+    height: 200px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.house-collapse-v2 .dropdowning-liks img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* .dropdown-links {
+    padding: 0 20px;
+} */
+
+
+
+.shop-logo {
+    position: relative;
+    perspective: 1000px;
+}
+
+.shop-logo button {
+    position: relative;
+    display: block;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+
+.brand-logo {
+    display: block;
+    height: auto;
+    backface-visibility: hidden;
+    border-radius: 16px;
+}
+
+.modal .img-fluid {
+    max-height: calc(100vh - 80px);
+    object-fit: cover;
+    border-radius: 25px;
+}
+
+.shop-logo button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('../img/house_shop.webp') center/cover no-repeat;
+    border-radius: 16px;
+
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+}
+
+.shop-card-wrapper:nth-child(2) .shop-logo button::after {
+    background-image: url('../img/bake.jpeg');
+}
+
+
+.shop-logo:hover button {
+    transform: rotateY(180deg);
+}

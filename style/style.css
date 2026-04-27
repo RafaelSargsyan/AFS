@@ -1,0 +1,25 @@
+/* Base */
+@import url('./base.css');
+
+/* Layout Sections */
+@import url('./header.css');
+@import url('./hero.css');
+@import url('./about.css');
+@import url('./categories.css');
+@import url('./shops.css');
+@import url('./studios.css');
+@import url('./facilities.css');
+@import url('./contact.css');
+@import url('./footer.css');
+
+/* Reusable Components */
+@import url('./components.css');
+
+/* Mobile Responsive */
+@import url('./mobile.css');
+
+
+
+
+
+

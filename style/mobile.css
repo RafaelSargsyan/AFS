@@ -1,0 +1,332 @@
+/* ====================== MOBILE RESPONSIVE ====================== */
+
+/* Better Typography Scale */
+:root {
+    --h1: 40px;
+    --h2: 32px;
+    --h3: 24px;
+    --text-lg: 16px;
+    --text-base: 13px;
+}
+
+@media (max-width: 992px) {
+
+    /* HEADER + HAMBURGER MENU */
+    .header {
+        padding: 15px 20px;
+    }
+
+    .container {
+        padding: 0 20px;
+    }
+
+    .header-inner {
+        padding: 0;
+    }
+
+    .main-nav {
+        position: fixed;
+        top: 50px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 50px);
+        background: #023f2a;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 40px;
+        gap: 25px;
+        transition: left 0.4s ease;
+        z-index: 999;
+        font-size: 18px;
+        padding: 20px;
+        text-align: left;
+        align-items: baseline;
+    }
+
+    .main-nav.active {
+        left: 0;
+        justify-content: flex-start;
+    }
+
+    .nav a {
+        margin: 0;
+        font-size: 18px;
+        color: #e6f2e6;
+    }
+
+    /* Hamburger Button */
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        z-index: 1000;
+        gap: 5px;
+    }
+
+    .hamburger span {
+        width: 28px;
+        height: 3px;
+        background: #01412c;
+        transition: 0.3s;
+        border-radius: 5px;
+    }
+
+    .scrolled .hamburger span {
+        background: #d2e9ce;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    @media (max-width: 992px) {
+        .hamburger {
+            display: flex;
+        }
+    }
+
+    .hero-section {
+        top: 27%;
+    }
+
+    /* HERO */
+    .hero {
+        height: 55vh;
+        padding-top: 90px;
+    }
+
+    .logo-big {
+        width: 210px
+    }
+
+    /* ABOUT */
+    .about {
+        padding: 30px 20px;
+        flex-direction: column;
+    }
+
+    .about-image {
+        flex: auto;
+        height: 250px;
+    }
+
+    .about-title {
+        font-size: var(--h1);
+        line-height: 45px;
+    }
+
+    .about-text {
+        font-size: var(--text-base);
+    }
+
+    .mv-section {
+        flex-direction: column;
+        gap: 50px;
+        padding: 0;
+    }
+
+    .mv-box {
+        padding: 20px;
+    }
+
+    .mv-box h2 {
+        font-size: var(--h2);
+    }
+
+    /* TEAM & VALUES */
+    .team-section.container {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .team-text p {
+        max-width: unset;
+    }
+
+    .owner-image-wrapper {
+        height: 320px;
+        flex: unset;
+    }
+
+    .team-text h2 {
+        font-size: var(--h2);
+    }
+
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .values-title {
+        font-size: var(--h2);
+    }
+
+    .values-section {
+        padding-bottom: 30px;
+    }
+
+    /* BUSINESS SECTION */
+    .business-section-inner {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .stat-number {
+        font-size: 48px;
+    }
+
+    /* CATEGORIES - Major Improvement */
+    .categories {
+        padding: 60px 20px;
+    }
+
+    .categories-title {
+        font-size: var(--h1);
+        margin-bottom: 40px;
+    }
+
+    .categories-grid {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .category-item {
+        height: auto;
+        min-height: 360px;
+        flex-direction: column;
+    }
+
+    .image-wrapper {
+        height: 240px;
+    }
+
+    .category-top {
+        padding: 18px;
+    }
+
+    .category-top h3 {
+        font-size: 20px;
+        line-height: 1.2;
+    }
+
+    /* Better Active State on Mobile */
+    .category-item.active {
+        height: auto;
+    }
+
+    .category-item.active .category-main {
+        width: 100% !important;
+        flex-shrink: 0;
+    }
+
+    .brands-panel {
+        position: static;
+        padding: 30px 20px;
+        opacity: 1;
+        visibility: visible;
+        background: #fff;
+    }
+
+    .brands-panel h5 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .brands-grid {
+        justify-content: center;
+    }
+
+    .back-categories {
+        float: none;
+        display: block;
+        margin: 30px auto 0;
+        width: fit-content;
+    }
+
+    /* SHOPS */
+    .shops-visual .split-container {
+        flex-direction: column;
+    }
+
+    .visual-wrapper {
+        height: 50vw !important;
+    }
+
+    /* .brand-logo {
+        max-width: 280px;
+    } */
+
+    /* STUDIOS */
+    .studios-grid {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    /* FACILITIES */
+    .facilities-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 180px;
+    }
+
+    /* CONTACT */
+    .contact {
+        margin-top: 60px;
+    }
+
+    .contact-grid {
+        flex-direction: column;
+    }
+
+    .contact-inner {
+        padding: 40px 20px;
+    }
+
+    .contact-right h2 {
+        font-size: var(--h2);
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* SCROLL TO TOP */
+    #scrollTopBtn {
+        width: 48px;
+        height: 48px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 480px) {
+    :root {
+        --h1: 36px;
+        --h2: 32px;
+        --h3: 24px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .about-title,
+    .categories-title {
+        font-size: var(--h1);
+    }
+
+    .slogan {
+        font-size: 21px;
+        padding: 18px 15px;
+    }
+}

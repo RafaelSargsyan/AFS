@@ -1,0 +1,89 @@
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 145px 0 110px;
+    overflow: hidden;
+    background: linear-gradient(140deg, #01412C 40%, rgb(15 52 44 / 48%)), url(../img/bridge2.webp) center / cover no-repeat;
+}
+
+.hero-backdrop {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #01412C, transparent 50%), radial-gradient(circle at 20% 20%, rgb(213 130 55 / 0%), transparent 34%);
+}
+
+.hero-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(30px);
+    opacity: 0.7;
+    animation: floatGlow 7s ease-in-out infinite;
+}
+
+.hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 3.25fr) minmax(320px, 0.75fr);
+    gap: 42px;
+    align-items: center;
+}
+
+.hero-copy {
+    color: var(--white);
+    max-width: 760px;
+}
+
+.hero-copy h1 {
+    margin: 12px 0 60px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 115px;
+    line-height: 0.88;
+    letter-spacing: 0.015em;
+    color: #d2e9ce;
+}
+
+.hero-text {
+    max-width: 620px;
+    font-size: 18px;
+    color: #d2e9ce;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+}
+
+.button-primary, .button-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 26px;
+    border-radius: 999px;
+    transition: all 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.button-primary {
+    background: linear-gradient(135deg, #f55116, #f55116);
+    color: #d2e9ce;
+    box-shadow: 0 18px 36px rgba(213, 130, 55, 0.28);
+}
+
+.button-secondary {
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    background: rgba(255, 255, 255, 0.08);
+    color: #d2e9ce;
+    backdrop-filter: blur(14px);
+}
+
+.button-primary:hover, .button-secondary:hover {
+    transform: translateY(-2px);
+}
