@@ -71,18 +71,59 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==================== CATEGORY CARDS ====================
     const items = document.querySelectorAll('.category-item');
     const categoriesSection = document.querySelector('.categories');
+    const title = document.querySelector('.categories-title');
 
+    // Store default title
+    const defaultTitle = title ? title.textContent : '';
+
+    // CATEGORY CLICK
     items.forEach(item => {
         item.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
 
+            // Close all first
             items.forEach(i => i.classList.remove('active'));
             if (categoriesSection) categoriesSection.classList.remove('blur');
 
-            if (!isActive) {
-                item.classList.add('active');
-                if (categoriesSection) categoriesSection.classList.add('blur');
+            // If already active → just reset title and stop
+            if (isActive) {
+                if (title) title.textContent = defaultTitle;
+                return;
             }
+
+            // Open clicked
+            item.classList.add('active');
+            if (categoriesSection) categoriesSection.classList.add('blur');
+
+            // Change title to h3 content
+            const h3 = item.querySelector('.category-top h3');
+            if (title && h3) {
+                title.textContent = h3.textContent;
+            }
+
+            const container = item.querySelector('.bottle-container');
+            if (container && carousels.has(container)) {
+                carousels.get(container).start();
+            }
+        });
+    });
+
+
+    // ==================== BACK BUTTON ====================
+    const backButtons = document.querySelectorAll('.button-primary');
+
+    backButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+
+            carousels.forEach(c => c.stop());
+
+            // Close everything
+            items.forEach(i => i.classList.remove('active'));
+            if (categoriesSection) categoriesSection.classList.remove('blur');
+
+            // Restore title
+            if (title) title.textContent = defaultTitle;
         });
     });
 
@@ -146,6 +187,95 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    // ==================== CONFIG ====================
+    const configs = {
+        "container-bake": {
+            path: "./img/icon/bake/",
+            count: 6
+        },
+        "container-food": {
+            path: "./img/icon/food/",
+            count: 17
+        },
+        "container-bev": {
+            path: "./img/icon/bev/",
+            count: 14
+        }
+    };
+
+    // ==================== GENERATE IMAGES ====================
+    const containers = document.querySelectorAll('.bottle-container');
+
+    containers.forEach(container => {
+        const key = Object.keys(configs).find(cls => container.classList.contains(cls));
+        if (!key) return;
+
+        const { path, count } = configs[key];
+
+        // Generate numbered images
+        for (let i = 1; i <= count; i++) {
+            const img = document.createElement('img');
+            img.src = `${path}${i}.png`;
+            img.className = "logo-big";
+            img.loading = "lazy"; // better performance
+            img.alt = "Alpha Food Service logo";
+
+            container.appendChild(img);
+        }
+
+        // Add blank background image
+        const blank = document.createElement('img');
+        blank.src = `${path}blank.png`;
+        blank.className = "logo-big blanc";
+        container.appendChild(blank);
+    });
+
+
+    // ==================== PREMIUM CAROUSEL ====================
+    const carousels = new Map(); // store controls
+
+    containers.forEach(container => {
+        const images = container.querySelectorAll('.logo-big:not(.blanc)');
+        if (images.length === 0) return;
+
+        let index = 0;
+        let interval = null;
+
+        const intervalTime = 1400;
+
+        // INIT styles
+        images.forEach(img => {
+            img.style.opacity = 0;
+            img.style.transition = "opacity 0.5s ease";
+        });
+
+        images[0].style.opacity = 1;
+
+        function start() {
+            if (interval) return; // prevent multiple intervals
+
+            interval = setInterval(() => {
+                const current = images[index];
+                const nextIndex = (index + 1) % images.length;
+                const next = images[nextIndex];
+
+                current.style.opacity = 0;
+                next.style.opacity = 1;
+
+                index = nextIndex;
+            }, intervalTime);
+        }
+
+        function stop() {
+            clearInterval(interval);
+            interval = null;
+        }
+
+        // store controls
+        carousels.set(container, { start, stop });
+
+    });
 
     // ==================== MOBILE MENU ====================
     const hamburger = document.getElementById('hamburger');

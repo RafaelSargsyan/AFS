@@ -88,6 +88,10 @@
     position: relative;
 }
 
+.category-item .bottle-container {
+    display: none;
+}
+
 .category-item:hover {
     transform: translateY(-10px);
 }
@@ -96,6 +100,16 @@
     width: 100%;
     flex: 1;
     display: flex;
+}
+
+.category-item.active .image-wrapper,
+.category-item.active .category-top {
+    display: none;
+}
+
+.category-item.active .bottle-container {
+    display: block;
+    cursor:
 }
 
 .blur .category-item {
@@ -123,6 +137,10 @@
     font-weight: 500;
     color: #f55116;
     margin-bottom: 35px;
+}
+
+.brands-panel button {
+    margin-top: 4px;
 }
 
 .brands-grid {
@@ -178,6 +196,7 @@
 
 .category-item.active .category-main {
     width: calc(100% / 3 - 15px);
+    cursor: default;
 }
 
 .back-categories {
@@ -193,3 +212,4 @@
     font-weight: 500;
     float: right;
 }
+
