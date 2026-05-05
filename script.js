@@ -68,66 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // ==================== CATEGORY CARDS ====================
-    const items = document.querySelectorAll('.category-item');
-    const categoriesSection = document.querySelector('.categories');
-    const title = document.querySelector('.categories-title');
-
-    // Store default title
-    const defaultTitle = title ? title.textContent : '';
-
-    // CATEGORY CLICK
-    items.forEach(item => {
-        item.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-
-            // Close all first
-            items.forEach(i => i.classList.remove('active'));
-            if (categoriesSection) categoriesSection.classList.remove('blur');
-
-            // If already active → just reset title and stop
-            if (isActive) {
-                if (title) title.textContent = defaultTitle;
-                return;
-            }
-
-            // Open clicked
-            item.classList.add('active');
-            if (categoriesSection) categoriesSection.classList.add('blur');
-
-            // Change title to h3 content
-            const h3 = item.querySelector('.category-top h3');
-            if (title && h3) {
-                title.textContent = h3.textContent;
-            }
-
-            const container = item.querySelector('.bottle-container');
-            if (container && carousels.has(container)) {
-                carousels.get(container).start();
-            }
-        });
-    });
-
-
-    // ==================== BACK BUTTON ====================
-    const backButtons = document.querySelectorAll('.button-primary');
-
-    backButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation(); 
-
-            carousels.forEach(c => c.stop());
-
-            // Close everything
-            items.forEach(i => i.classList.remove('active'));
-            if (categoriesSection) categoriesSection.classList.remove('blur');
-
-            // Restore title
-            if (title) title.textContent = defaultTitle;
-        });
-    });
-
-    // ==================== CONTACT FORM ====================
+        // ==================== CONTACT FORM ====================
     const contactForm = document.getElementById("contact-form");
 
     if (contactForm) {
@@ -188,95 +129,205 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==================== CONFIG ====================
-    const configs = {
-        "container-bake": {
-            path: "./img/icon/bake/",
-            count: 6
-        },
-        "container-food": {
-            path: "./img/icon/food/",
-            count: 17
-        },
-        "container-bev": {
-            path: "./img/icon/bev/",
-            count: 14
+// ==================== CATEGORY CARDS ====================
+const items = document.querySelectorAll('.category-item');
+const categoriesSection = document.querySelector('.categories');
+const title = document.querySelector('.categories-title');
+
+// Store default title
+const defaultTitle = title ? title.textContent : '';
+
+// CATEGORY CLICK
+items.forEach(item => {
+    const main = item.querySelector('.category-main');
+    if (!main) return;
+
+    item.dataset.paused = "false";
+
+    main.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        const container = item.querySelector('.bottle-container');
+        const controls = carousels.get(container);
+
+        // ==================== TOGGLE (SAME ITEM) ====================
+        if (isActive) {
+            if (!controls) return;
+
+            if (item.dataset.paused === "false") {
+                controls.stop();
+                item.dataset.paused = "true";
+            } else {
+                controls.start();
+                item.dataset.paused = "false";
+            }
+
+            return;
         }
-    };
 
-    // ==================== GENERATE IMAGES ====================
-    const containers = document.querySelectorAll('.bottle-container');
+        // ==================== SWITCH CATEGORY ====================
 
-    containers.forEach(container => {
-        const key = Object.keys(configs).find(cls => container.classList.contains(cls));
-        if (!key) return;
+        // stop all
+        carousels.forEach(c => c.stop());
 
-        const { path, count } = configs[key];
-
-        // Generate numbered images
-        for (let i = 1; i <= count; i++) {
-            const img = document.createElement('img');
-            img.src = `${path}${i}.png`;
-            img.className = "logo-big";
-            img.loading = "lazy"; // better performance
-            img.alt = "Alpha Food Service logo";
-
-            container.appendChild(img);
-        }
-
-        // Add blank background image
-        const blank = document.createElement('img');
-        blank.src = `${path}blank.png`;
-        blank.className = "logo-big blanc";
-        container.appendChild(blank);
-    });
-
-
-    // ==================== PREMIUM CAROUSEL ====================
-    const carousels = new Map(); // store controls
-
-    containers.forEach(container => {
-        const images = container.querySelectorAll('.logo-big:not(.blanc)');
-        if (images.length === 0) return;
-
-        let index = 0;
-        let interval = null;
-
-        const intervalTime = 1400;
-
-        // INIT styles
-        images.forEach(img => {
-            img.style.opacity = 0;
-            img.style.transition = "opacity 0.5s ease";
+        // close all
+        items.forEach(i => {
+            i.classList.remove('active');
+            i.dataset.paused = "false";
         });
 
-        images[0].style.opacity = 1;
+        if (categoriesSection) categoriesSection.classList.remove('blur');
 
-        function start() {
-            if (interval) return; // prevent multiple intervals
+        // open clicked
+        item.classList.add('active');
+        if (categoriesSection) categoriesSection.classList.add('blur');
 
-            interval = setInterval(() => {
-                const current = images[index];
-                const nextIndex = (index + 1) % images.length;
-                const next = images[nextIndex];
+        item.dataset.paused = "false";
 
-                current.style.opacity = 0;
-                next.style.opacity = 1;
-
-                index = nextIndex;
-            }, intervalTime);
+        // change title
+        const h3 = item.querySelector('.category-top h3');
+        if (title && h3) {
+            title.textContent = h3.textContent;
         }
 
-        function stop() {
-            clearInterval(interval);
-            interval = null;
+        // start animation
+        if (container && controls) {
+            controls.start();
         }
+    });
+});
 
-        // store controls
-        carousels.set(container, { start, stop });
 
+// ==================== BACK BUTTON ====================
+const backButtons = document.querySelectorAll('.button-primary');
+
+backButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        carousels.forEach(c => c.stop());
+
+        items.forEach(i => {
+            i.classList.remove('active');
+            i.dataset.paused = "false";
+        });
+
+        if (categoriesSection) categoriesSection.classList.remove('blur');
+
+        if (title) title.textContent = defaultTitle;
+    });
+});
+
+
+// ==================== CONFIG ====================
+const configs = {
+    "container-bake": { path: "./img/icon/bake/", count: 23 },
+    "container-food": { path: "./img/icon/food/", count: 28 },
+    "container-bev": { path: "./img/icon/bev/", count: 30 }
+};
+
+
+// ==================== GENERATE IMAGES ====================
+const containers = document.querySelectorAll('.bottle-container');
+
+containers.forEach(container => {
+    const key = Object.keys(configs).find(cls => container.classList.contains(cls));
+    if (!key) return;
+
+    const { path, count } = configs[key];
+
+    for (let i = 1; i <= count; i++) {
+        const img = document.createElement('img');
+        img.src = `${path}${i}.png`;
+        img.className = "logo-big";
+        img.loading = "lazy";
+        img.alt = "Alpha Food Service logo";
+
+        container.appendChild(img);
+    }
+
+    const blank = document.createElement('img');
+    blank.src = `${path}blank.png`;
+    blank.className = "logo-big blanc";
+    container.appendChild(blank);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'carousel-overlay';
+    overlay.innerHTML = '▶';
+
+    container.appendChild(overlay);
+});
+
+
+// ==================== PREMIUM CAROUSEL ====================
+const carousels = new Map();
+
+containers.forEach(container => {
+    const images = container.querySelectorAll('.logo-big:not(.blanc)');
+    if (images.length === 0) return;
+
+    let index = 0;
+    let interval = null;
+    const intervalTime = 1400;
+
+    images.forEach(img => {
+        img.style.opacity = 0;
+        img.style.transition = "opacity 0.5s ease";
     });
 
+    images[0].style.opacity = 1;
+
+    function start() {
+        if (interval) return;
+
+        function nextFrame() {
+            const current = images[index];
+            const nextIndex = (index + 1) % images.length;
+            const next = images[nextIndex];
+
+            current.style.opacity = 0;
+            next.style.opacity = 1;
+
+            index = nextIndex;
+        }
+
+        nextFrame();
+
+        interval = setInterval(nextFrame, intervalTime);
+
+        container.classList.remove('paused');
+    }
+
+    function stop() {
+        clearInterval(interval);
+        interval = null;
+
+        container.classList.add('paused');
+    }
+
+    carousels.set(container, { start, stop });
+});
+
+
+// ==================== CONTAINER CLICK (SYNCED TOGGLE) ====================
+containers.forEach(container => {
+    container.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const controls = carousels.get(container);
+        if (!controls) return;
+
+        const item = container.closest('.category-item');
+        if (!item) return;
+
+        if (item.dataset.paused === "false") {
+            controls.stop();
+            item.dataset.paused = "true";
+        } else {
+            controls.start();
+            item.dataset.paused = "false";
+        }
+    });
+});
     // ==================== MOBILE MENU ====================
     const hamburger = document.getElementById('hamburger');
     const mainNav = document.getElementById('mainNav');
