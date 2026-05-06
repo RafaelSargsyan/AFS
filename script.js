@@ -222,7 +222,7 @@ backButtons.forEach(btn => {
 const configs = {
     "container-bake": { path: "./img/icon/bake/", count: 23 },
     "container-food": { path: "./img/icon/food/", count: 28 },
-    "container-bev": { path: "./img/icon/bev/", count: 30 }
+    "container-bev": { path: "./img/icon/bev/", count: 31 }
 };
 
 
