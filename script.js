@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const header = document.getElementById("header");
 
     window.addEventListener("scroll", () => {
-        if (window.scrollY > 80) {
+        if (window.scrollY > 40) {
             header.classList.add("scrolled");
         } else {
             header.classList.remove("scrolled");
@@ -220,9 +220,9 @@ backButtons.forEach(btn => {
 
 // ==================== CONFIG ====================
 const configs = {
-    "container-bake": { path: "./img/icon/bake/", count: 23 },
+    "container-bake": { path: "./img/icon/bake/", count: 24 },
     "container-food": { path: "./img/icon/food/", count: 28 },
-    "container-bev": { path: "./img/icon/bev/", count: 31 }
+    "container-bev": { path: "./img/icon/bev/", count: 34 }
 };
 
 
@@ -328,22 +328,25 @@ containers.forEach(container => {
         }
     });
 });
-    // ==================== MOBILE MENU ====================
     const hamburger = document.getElementById('hamburger');
     const mainNav = document.getElementById('mainNav');
 
-    if (hamburger && mainNav) {
+    if (hamburger && mainNav && header) {
+
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             mainNav.classList.toggle('active');
+            header.classList.toggle('active');
         });
 
         document.querySelectorAll('.main-nav a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
                 mainNav.classList.remove('active');
+                header.classList.remove('active');
             });
         });
+
     }
 
     // ==================== SLICK INIT (CLEAN & SAFE) ====================

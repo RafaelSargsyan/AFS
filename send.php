@@ -25,10 +25,10 @@ $company = trim($_POST["company"] ?? "");
 // ==================== ROUTING LOGIC ====================
 // Change these emails to your actual work Outlook addresses
 $recipients = [
-    "Supplier"   => "diyano7342@poisonword.com",
-    "Business"   => "nu4skus9oq@yzcalo.com",
-    "Feedback"   => "5fo9x@deltajohnsons.com",  
-    "Other"      => "lafyutagni@necub.com"
+    "Supplier"   => "info@foodservice.am",
+    "Business"   => "info@foodservice.am",
+    "Feedback"   => "Feedback@foodservice.am",  
+    "Other"      => "info@foodservice.am"
 ];
 
 $to = $recipients[$subject] ?? "info@foodservice.am";   // fallback
