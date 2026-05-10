@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         for (let i = 1; i <= count; i++) {
             const img = document.createElement('img');
-            img.src = `${path}${i}.png`;
+            img.src = `${path}${i}.webp`;
             img.className = "logo-big";
             img.loading = "lazy";
             img.alt = "Alpha Food Service logo";
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const blank = document.createElement('img');
-        blank.src = `${path}blank.png`;
+        blank.src = `${path}blank.webp`;
         blank.className = "logo-big blanc";
         container.appendChild(blank);
 
