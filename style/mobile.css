@@ -22,6 +22,15 @@
         padding: 0 20px;
     }
 
+    section {
+        scroll-margin-top: 70px;
+    }
+
+    .vh-wrapper {
+        min-height: unset;
+        display: block;
+    }
+
     .hero-grid {
         grid-template-columns: none;
     }
@@ -105,18 +114,13 @@
 
     /* HERO */
     .hero {
-        padding-top: 100px;
+        padding: 120px 0;
         min-height: auto;
-    }
-
-    .logo-big {
-        width: 210px
     }
 
     /* ABOUT */
     .about.container {
         padding: 30px 20px 0;
-        
     }
 
     .about-inner {
@@ -131,7 +135,10 @@
 
     .about-title,
     .categories-title,
-    .team-values h2 {
+    .shops-container-text h2,
+    .team-values h2,
+    .studios-header h2,
+    .facilities-header h2 {
         font-size: var(--h1);
         line-height: 45px;
     }
@@ -253,7 +260,7 @@
 
     /* CATEGORIES - Major Improvement */
     .categories {
-        padding: 60px 20px;
+        padding: 30px 0px 0px;
     }
 
     .categories-title {
@@ -263,13 +270,12 @@
 
     .categories-grid {
         flex-direction: column;
-        gap: 25px;
+        gap: 50px;
     }
 
     .category-item {
         height: auto;
-        min-height: 360px;
-        flex-direction: column;
+        flex-direction: row;
     }
 
     .image-wrapper {
@@ -277,39 +283,45 @@
     }
 
     .category-top {
-        padding: 18px;
+        padding: 0;
+        background: transparent;
+        border-radius: 0;
+        pointer-events: none;
+    }
+
+    .image-wrapper {
+        display: none;
     }
 
     .category-top h3 {
-        font-size: 20px;
+        font-size: 15px;
         line-height: 1.2;
+        color: #01412C;
+        text-align: left;
     }
 
-    /* Better Active State on Mobile */
-    .category-item.active {
-        height: auto;
-    }
-
-    .category-item.active .category-main {
-        width: 100% !important;
-        flex-shrink: 0;
+    .category-item .bottle-container {
+        height: 250px;
+        display: block;
+        margin: auto;
+        width: 100%;
+        max-width: 500px;
     }
 
     .brands-panel {
-        position: static;
-        padding: 30px 20px;
         opacity: 1;
+        flex: 1;
+        padding-left: 10px;
         visibility: visible;
-        background: #fff;
     }
 
-    .brands-panel h5 {
-        text-align: center;
-        margin-bottom: 30px;
+    .brands-panel button {
+        display: none;
     }
 
     .brands-grid {
         justify-content: center;
+        height: 100%;
     }
 
     .back-categories {
@@ -319,29 +331,88 @@
         width: fit-content;
     }
 
+    
+    .category-item.active {
+        height: auto;
+    }
+
+    .bottle-container img.logo-big {
+        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .category-main {
+        display: block;
+        width: auto;
+    }
+
+    .category-item.active .category-main {
+        width: 100% !important;
+        flex-shrink: 0;
+    }
+
+    .category-item:hover {
+        transform:  none;
+    }
+
     /* SHOPS */
-    .shops-visual .split-container {
-        flex-direction: column;
+
+    .shops-section {
+        background: unset;
+        padding: 30px 0;
     }
 
-    .visual-wrapper {
-        height: 50vw !important;
+    .shops-container-text-inner {
+        width: 100%;
+    }
+    .shops-container-text p {
+        font-size: var(--text-base);
     }
 
-    /* .brand-logo {
-        max-width: 280px;
-    } */
-
-    /* STUDIOS */
-    .studios-grid {
+    .shop-card {
         flex-direction: column;
-        gap: 50px;
+        gap: 20px;
+    }
+
+    .shop-logo {
+        margin: auto;
+        width: 200px;
+    }
+
+    .shop-logo .btn {
+        min-height: 120px;
+    }
+
+    .shop-logo:hover button {
+        transform: none;
+    }
+
+    .studios {
+        padding: 20px 0;
+    }
+
+    .studios-header h2 {
+        margin-bottom: 20px;
+    }
+
+    .studios-header p {
+        font-size: var(--text-base);
+        margin-bottom: 0;
     }
 
     /* FACILITIES */
-    .facilities-grid {
-        grid-template-columns: 1fr;
-        grid-auto-rows: 180px;
+    .facilities {
+        padding: 20px 0;
+    }
+
+    .facilities-header h2 {
+        margin-bottom: 20px;
+    }
+
+    .facilities-header p {
+        font-size: var(--text-base);
+        margin-bottom: 0;
     }
 
     /* CONTACT */
@@ -423,14 +494,6 @@
     .footer-column:nth-child(2) { grid-column: 1; } 
     .footer-column:nth-child(3) { grid-column: 2; } 
 
-    
-    .categories,
-    .studios,
-    .facilities,
-    .shops-section {
-        display: none;
-    }
-
     input, textarea, select {
         padding: 10px;
     }
@@ -461,11 +524,28 @@
     .team-values h2 {
         font-size: var(--h1);
         margin-bottom: 20px;
+        line-height: 35px;
     }
 
     .slogan {
         font-size: 21px;
         padding: 18px 15px;
+    }
+
+    .category-item {
+        flex-direction: column;
+    }
+    
+    .brands-grid {
+        height: 200px;
+    }
+
+    .brands-panel {
+        padding: 0;
+    }
+
+    .category-item .bottle-container {
+        height: 200px;
     }
 
     .business-image {

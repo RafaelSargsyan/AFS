@@ -15,12 +15,14 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x:hidden;
 }
 
 body {
     font-family: 'Montserrat', system-ui, sans-serif;
     line-height: 1.7;
     color: #1f4d3b;
+    overflow-x:hidden;
 }
 
 .container {

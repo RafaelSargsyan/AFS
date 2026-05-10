@@ -129,29 +129,206 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-// ==================== CATEGORY CARDS ====================
-const items = document.querySelectorAll('.category-item');
-const categoriesSection = document.querySelector('.categories');
-const title = document.querySelector('.categories-title');
+    // ==================== CATEGORY CARDS ====================
+    const items = document.querySelectorAll('.category-item');
+    const categoriesSection = document.querySelector('.categories');
+    const title = document.querySelector('.categories-title');
 
-// Store default title
-const defaultTitle = title ? title.textContent : '';
+    // Store default title
+    const defaultTitle = title ? title.textContent : '';
 
-// CATEGORY CLICK
-items.forEach(item => {
-    const main = item.querySelector('.category-main');
-    if (!main) return;
+    // CATEGORY CLICK
+    items.forEach(item => {
+        const main = item.querySelector('.category-main');
+        if (!main) return;
 
-    item.dataset.paused = "false";
+        item.dataset.paused = "false";
 
-    main.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        const container = item.querySelector('.bottle-container');
-        const controls = carousels.get(container);
+        main.addEventListener('click', () => {
+            if (window.innerWidth < 992) return;
 
-        // ==================== TOGGLE (SAME ITEM) ====================
-        if (isActive) {
+            const isActive = item.classList.contains('active');
+            const container = item.querySelector('.bottle-container');
+            const controls = carousels.get(container);
+
+            // ==================== TOGGLE (SAME ITEM) ====================
+            if (isActive) {
+                if (!controls) return;
+
+                if (item.dataset.paused === "false") {
+                    controls.stop();
+                    item.dataset.paused = "true";
+                } else {
+                    controls.start();
+                    item.dataset.paused = "false";
+                }
+
+                return;
+            }
+
+            // ==================== SWITCH CATEGORY ====================
+
+            // stop all
+            carousels.forEach(c => c.stop());
+
+            // close all
+            items.forEach(i => {
+                i.classList.remove('active');
+                i.dataset.paused = "false";
+            });
+
+            if (categoriesSection) categoriesSection.classList.remove('blur');
+
+            // open clicked
+            item.classList.add('active');
+            if (categoriesSection) categoriesSection.classList.add('blur');
+
+            item.dataset.paused = "false";
+
+            // change title
+            const h3 = item.querySelector('.category-top h3');
+            if (title && h3) {
+                title.textContent = h3.textContent;
+            }
+
+            // start animation
+            if (container && controls) {
+                controls.start();
+            }
+        });
+    });
+
+
+    // ==================== BACK BUTTON ====================
+    const backButtons = document.querySelectorAll('.button-primary');
+
+    backButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            carousels.forEach(c => c.stop());
+
+            items.forEach(i => {
+                i.classList.remove('active');
+                i.dataset.paused = "false";
+            });
+
+            if (categoriesSection) categoriesSection.classList.remove('blur');
+
+            if (title) title.textContent = defaultTitle;
+        });
+    });
+
+
+    // ==================== CONFIG ====================
+    const configs = {
+        "container-bake": { path: "./img/icon/bake/", count: 24 },
+        "container-food": { path: "./img/icon/food/", count: 28 },
+        "container-bev": { path: "./img/icon/bev/", count: 34 }
+    };
+
+
+    // ==================== GENERATE IMAGES ====================
+    const containers = document.querySelectorAll('.bottle-container');
+
+    containers.forEach(container => {
+        const key = Object.keys(configs).find(cls => container.classList.contains(cls));
+        if (!key) return;
+
+        const { path, count } = configs[key];
+
+        for (let i = 1; i <= count; i++) {
+            const img = document.createElement('img');
+            img.src = `${path}${i}.png`;
+            img.className = "logo-big";
+            img.loading = "lazy";
+            img.alt = "Alpha Food Service logo";
+
+            container.appendChild(img);
+        }
+
+        const blank = document.createElement('img');
+        blank.src = `${path}blank.png`;
+        blank.className = "logo-big blanc";
+        container.appendChild(blank);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'carousel-overlay';
+        overlay.innerHTML = '▶';
+
+        container.appendChild(overlay);
+    });
+
+
+    // ==================== PREMIUM CAROUSEL ====================
+    const carousels = new Map();
+
+    containers.forEach(container => {
+        const images = container.querySelectorAll('.logo-big:not(.blanc)');
+        if (images.length === 0) return;
+
+        let index = 0;
+        let interval = null;
+        const intervalTime = 1400;
+
+        images.forEach(img => {
+            img.style.opacity = 0;
+            img.style.transition = "opacity 0.5s ease";
+        });
+
+        images[0].style.opacity = 1;
+
+        function start() {
+            if (interval) return;
+
+            function nextFrame() {
+                const current = images[index];
+                const nextIndex = (index + 1) % images.length;
+                const next = images[nextIndex];
+
+                current.style.opacity = 0;
+                next.style.opacity = 1;
+
+                index = nextIndex;
+            }
+
+            nextFrame();
+
+            interval = setInterval(nextFrame, intervalTime);
+
+            container.classList.remove('paused');
+        }
+
+        function stop() {
+            clearInterval(interval);
+            interval = null;
+
+            container.classList.add('paused');
+        }
+
+        carousels.set(container, { start, stop });
+
+        // AUTO START ON MOBILE
+        if (window.innerWidth < 992) {
+            start();
+        }
+    });
+
+
+    // ==================== CONTAINER CLICK (SYNCED TOGGLE) ====================
+    containers.forEach(container => {
+        container.addEventListener('click', (e) => {
+            
+            // DISABLE TOGGLE ON MOBILE
+            
+
+            e.stopPropagation();
+
+            const controls = carousels.get(container);
             if (!controls) return;
+
+            const item = container.closest('.category-item');
+            if (!item) return;
 
             if (item.dataset.paused === "false") {
                 controls.stop();
@@ -160,174 +337,8 @@ items.forEach(item => {
                 controls.start();
                 item.dataset.paused = "false";
             }
-
-            return;
-        }
-
-        // ==================== SWITCH CATEGORY ====================
-
-        // stop all
-        carousels.forEach(c => c.stop());
-
-        // close all
-        items.forEach(i => {
-            i.classList.remove('active');
-            i.dataset.paused = "false";
         });
-
-        if (categoriesSection) categoriesSection.classList.remove('blur');
-
-        // open clicked
-        item.classList.add('active');
-        if (categoriesSection) categoriesSection.classList.add('blur');
-
-        item.dataset.paused = "false";
-
-        // change title
-        const h3 = item.querySelector('.category-top h3');
-        if (title && h3) {
-            title.textContent = h3.textContent;
-        }
-
-        // start animation
-        if (container && controls) {
-            controls.start();
-        }
     });
-});
-
-
-// ==================== BACK BUTTON ====================
-const backButtons = document.querySelectorAll('.button-primary');
-
-backButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-
-        carousels.forEach(c => c.stop());
-
-        items.forEach(i => {
-            i.classList.remove('active');
-            i.dataset.paused = "false";
-        });
-
-        if (categoriesSection) categoriesSection.classList.remove('blur');
-
-        if (title) title.textContent = defaultTitle;
-    });
-});
-
-
-// ==================== CONFIG ====================
-const configs = {
-    "container-bake": { path: "./img/icon/bake/", count: 24 },
-    "container-food": { path: "./img/icon/food/", count: 28 },
-    "container-bev": { path: "./img/icon/bev/", count: 34 }
-};
-
-
-// ==================== GENERATE IMAGES ====================
-const containers = document.querySelectorAll('.bottle-container');
-
-containers.forEach(container => {
-    const key = Object.keys(configs).find(cls => container.classList.contains(cls));
-    if (!key) return;
-
-    const { path, count } = configs[key];
-
-    for (let i = 1; i <= count; i++) {
-        const img = document.createElement('img');
-        img.src = `${path}${i}.png`;
-        img.className = "logo-big";
-        img.loading = "lazy";
-        img.alt = "Alpha Food Service logo";
-
-        container.appendChild(img);
-    }
-
-    const blank = document.createElement('img');
-    blank.src = `${path}blank.png`;
-    blank.className = "logo-big blanc";
-    container.appendChild(blank);
-
-    const overlay = document.createElement('div');
-    overlay.className = 'carousel-overlay';
-    overlay.innerHTML = '▶';
-
-    container.appendChild(overlay);
-});
-
-
-// ==================== PREMIUM CAROUSEL ====================
-const carousels = new Map();
-
-containers.forEach(container => {
-    const images = container.querySelectorAll('.logo-big:not(.blanc)');
-    if (images.length === 0) return;
-
-    let index = 0;
-    let interval = null;
-    const intervalTime = 1400;
-
-    images.forEach(img => {
-        img.style.opacity = 0;
-        img.style.transition = "opacity 0.5s ease";
-    });
-
-    images[0].style.opacity = 1;
-
-    function start() {
-        if (interval) return;
-
-        function nextFrame() {
-            const current = images[index];
-            const nextIndex = (index + 1) % images.length;
-            const next = images[nextIndex];
-
-            current.style.opacity = 0;
-            next.style.opacity = 1;
-
-            index = nextIndex;
-        }
-
-        nextFrame();
-
-        interval = setInterval(nextFrame, intervalTime);
-
-        container.classList.remove('paused');
-    }
-
-    function stop() {
-        clearInterval(interval);
-        interval = null;
-
-        container.classList.add('paused');
-    }
-
-    carousels.set(container, { start, stop });
-});
-
-
-// ==================== CONTAINER CLICK (SYNCED TOGGLE) ====================
-containers.forEach(container => {
-    container.addEventListener('click', (e) => {
-        e.stopPropagation();
-
-        const controls = carousels.get(container);
-        if (!controls) return;
-
-        const item = container.closest('.category-item');
-        if (!item) return;
-
-        if (item.dataset.paused === "false") {
-            controls.stop();
-            item.dataset.paused = "true";
-        } else {
-            controls.start();
-            item.dataset.paused = "false";
-        }
-    });
-});
     const hamburger = document.getElementById('hamburger');
     const mainNav = document.getElementById('mainNav');
 
@@ -367,14 +378,19 @@ containers.forEach(container => {
                 {
                     breakpoint: 1100,
                     settings: {
-                        centerPadding: '50px',
-                        slidesToShow: 3
+                        centerPadding: '10px',
+                        slidesToShow: 1,
+                        arrows: false,
+                        dots: true,
                     }
                 },
                 {
                     breakpoint: 992,
                     settings: {
-                        slidesToShow: 1
+                        centerPadding: '10px',
+                        slidesToShow: 1,
+                        arrows: false,
+                        dots: true,
                     }
                 }
             ]
@@ -395,15 +411,19 @@ containers.forEach(container => {
                 {
                     breakpoint: 1100,
                     settings: {
-                        centerPadding: '50px',
-                        slidesToShow: 3
+                        centerPadding: '10px',
+                        slidesToShow: 1,
+                        arrows: false,
+                        dots: true,
                     }
                 },
                 {
                     breakpoint: 992,
                     settings: {
-                        centerPadding: '40px',
-                        slidesToShow: 1
+                        centerPadding: '10px',
+                        slidesToShow: 1,
+                        arrows: false,
+                        dots: true,
                     }
                 }
             ]
