@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("show");
 
-                // 🔥 FIX: recalc slick when visible
+                
                 if (entry.target.querySelector('#studiosSlider')) {
                     $('#studiosSlider').slick('setPosition');
                 }
