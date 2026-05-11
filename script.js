@@ -223,8 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==================== CONFIG ====================
     const configs = {
         "container-bake": { path: "./img/icon/bake/", count: 24 },
-        "container-food": { path: "./img/icon/food/", count: 28 },
-        "container-bev": { path: "./img/icon/bev/", count: 34 }
+        "container-food": { path: "./img/icon/food/", count: 31 },
+        "container-bev": { path: "./img/icon/bev/", count: 35 }
     };
 
 
@@ -239,9 +239,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         for (let i = 1; i <= count; i++) {
             const img = document.createElement('img');
-            img.src = `${path}${i}.webp`;
+            img.dataset.src = `${path}${i}.webp`;
             img.className = "logo-big";
             img.loading = "lazy";
+            img.width = 400;
+            img.height = 500;
             img.alt = "Alpha Food Service logo";
 
             container.appendChild(img);
@@ -258,6 +260,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         container.appendChild(overlay);
     });
+
+    function loadCarouselImages(container){
+
+        const imgs = container.querySelectorAll('img[data-src]');
+
+        imgs.forEach(img => {
+
+            if (!img.src) {
+                img.src = img.dataset.src;
+            }
+
+        });
+
+    }
 
 
     // ==================== PREMIUM CAROUSEL ====================
@@ -277,6 +293,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         images[0].style.opacity = 1;
+
+        loadCarouselImages(container);
 
         function start() {
             if (interval) return;

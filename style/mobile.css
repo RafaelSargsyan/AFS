@@ -115,7 +115,6 @@
     /* HERO */
     .hero {
         padding: 120px 0;
-        min-height: auto;
     }
 
     /* ABOUT */
@@ -496,6 +495,13 @@
 
     input, textarea, select {
         padding: 10px;
+        font-size: 16px;
+        transform: scale(0.9) translateX(-20px);
+    }
+
+    .footer-nav a:hover, .footer-contact-list a:hover{
+        color: inherit;
+        transform: none;
     }
 
     form {

@@ -92,6 +92,10 @@
     display: none;
 }
 
+.bottle-container{
+    aspect-ratio: 4 / 5;
+}
+
 .category-item:hover {
     transform: translateY(-10px);
 }
