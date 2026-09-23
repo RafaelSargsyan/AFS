@@ -366,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         "container-food": {
             path: "./img/icon/food/",
-            count: 34
+            count: 37
         },
 
         "container-bev": {
